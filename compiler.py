@@ -1,4 +1,5 @@
 import lexeicalAnalyzer as lex
+import re
 
 def readFile(fName, buffS):
     with open(fName, 'r') as fp:
@@ -29,7 +30,9 @@ def main():
     while True:
         print(buff1)
 
-        lex.getNextToken(buff1)
+        token = re.sub(r'[ \t\n]+', lambda match: r'\t' if match.group(0) == '\t' else r'\n' if match.group(0) == '\n' else r'\s', buff1)
+
+        lex.getNextToken(token)
 
         buff1, buff2 = buff2, buff1
 
