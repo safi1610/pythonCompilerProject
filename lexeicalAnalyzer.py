@@ -1,4 +1,5 @@
 import string
+import token_1 as t
 
 keyWords = ["if", "fi", "while", "do", "od", "def", "fed", "print"]
 types = ["int", "double"]
