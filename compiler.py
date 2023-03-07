@@ -30,9 +30,13 @@ def main():
     while True:
         print(buff1)
 
-        token = re.sub(r'[ \t\n]+', lambda match: r'\t' if match.group(0) == '\t' else r'\n' if match.group(0) == '\n' else r'\s', buff1)
+        # token = re.sub(r'[ \t\n]+', lambda match: r'\t' if match.group(0) == '\t' else r'\n' if match.group(0) == '\n' else r'\s', buff1)
 
-        lex.getNextToken(token)
+        # delBuff = buff1.split()
+        # print(delBuff)
+        lex.getNextToken(buff1)
+        # for token in delBuff:
+        #     lex.getNextToken(token)
 
         buff1, buff2 = buff2, buff1
 
