@@ -15,12 +15,17 @@ def getNextToken(token):
     classification = ""
     symbol = ""
     state = 0
-    delTok = ""
+    lineNum = 1
     curr = 0
     buffLen = len(token)
 
     while curr != buffLen:
         match state:
+            case -1:
+                while token[curr] not in delim:
+                    symbol += token[curr]
+                    curr += 1
+                print(symbol +" is not a valid" + classification + " at line: " + lineNum)
             case 0:
                 if token[curr] in operators:
                     classification = "operator"
@@ -38,6 +43,8 @@ def getNextToken(token):
                     classification = "closing parentheses"
                     state = 2
                 if token[curr] in delim:
+                    if token[curr] == "\n":
+                        lineNum += 1
                     curr += 1
                     symbol = ""
                 
@@ -45,6 +52,13 @@ def getNextToken(token):
                     symbol += token[curr]
                     curr += 1 
                     state = 1
+
+                if token[curr].isdigit():
+                    symbol += token[curr]
+                    curr += 1
+                    state = 3
+                
+                    
             case 1:
                 if token[curr] in alphabet or token[curr].isdigit():
                     symbol += token[curr]
@@ -68,3 +82,38 @@ def getNextToken(token):
                 state = 0
                 curr += 1
                 print(tk.element, tk.classification)
+            
+            case 3:
+                classification = "integer"
+                if token[curr].isdigit():
+                    symbol += token[curr]
+                elif token[curr] == ".":
+                    symbol += token[curr]
+                    state = 4
+                    curr += 1
+                elif token[curr] in alphabet:
+                    symbol += token[curr]
+                    curr += 1
+                    state = -1
+                else:
+                    tk = t.Token(symbol, classification)
+                    symbol = ""
+                    state = 0
+                    print(tk.element, tk.classification)
+            case 4:
+                classification = "double"
+                if token[curr].isdigit():
+                    symbol += token[curr]
+                    curr += 1
+                elif token[curr] in alphabet:
+                    symbol += token[curr]
+                    curr += 1
+                    state = -1
+                else:
+                    tk = t.Token(symbol, classification)
+                    symbol = ""
+                    state = 0
+                    print(tk.element, tk.classification)
+
+            
+
