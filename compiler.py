@@ -29,10 +29,10 @@ def main():
     buff2 = nextRead(line)
 
     while True:
-        print(buff1)
+        # print(buff1)
 
-        token = re.sub(r'[ \t\n]+', lambda match: r'\t' if match.group(0) == '\t' else r'\n' if match.group(0) == '\n' else r'\s', buff1)
-
+        token = re.sub(r'[ \t\n]+', lambda match: "" if match.group(0) == '\t' else "" if match.group(0) == '\n' else " ", buff1)
+        # print(token)
         # delBuff = buff1.split()
         # print(delBuff)
         lex.getNextToken(buff1)
