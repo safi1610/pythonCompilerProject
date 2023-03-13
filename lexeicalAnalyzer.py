@@ -87,11 +87,11 @@ def getNextToken(token):
                 classification = "integer"
                 if token[curr].isdigit():
                     symbol += token[curr]
-                elif token[curr] == ".":
+                elif token[curr] == "." or token[curr] == "e":
                     symbol += token[curr]
                     state = 4
                     curr += 1
-                elif token[curr] in alphabet:
+                elif token[curr] in alphabet and token[curr] != "e":
                     symbol += token[curr]
                     curr += 1
                     state = -1
@@ -105,7 +105,10 @@ def getNextToken(token):
                 if token[curr].isdigit():
                     symbol += token[curr]
                     curr += 1
-                elif token[curr] in alphabet:
+                elif token[curr] == "e":
+                    symbol += token[curr]
+                    curr += 1
+                elif token[curr] in alphabet and token[curr] != "e":
                     symbol += token[curr]
                     curr += 1
                     state = -1
