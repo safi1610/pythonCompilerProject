@@ -31,7 +31,7 @@ def main():
     while True:
         # print(buff1)
 
-        token = re.sub(r'[ \t\n]+', lambda match: "" if match.group(0) == '\t' else "" if match.group(0) == '\n' else " ", buff1)
+        # token = re.sub(r'[ \t\n]+', lambda match: "" if match.group(0) == '\t' else "" if match.group(0) == '\n' else " ", buff1)
         # print(token)
         # delBuff = buff1.split()
         # print(delBuff)
