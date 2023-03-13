@@ -23,6 +23,7 @@ def main():
     fileName = "Test1.cp"
     
     line = readFile(fileName, bufferSize)
+    
 
     buff1 = nextRead(line)
     buff2 = nextRead(line)
@@ -30,7 +31,7 @@ def main():
     while True:
         print(buff1)
 
-        # token = re.sub(r'[ \t\n]+', lambda match: r'\t' if match.group(0) == '\t' else r'\n' if match.group(0) == '\n' else r'\s', buff1)
+        token = re.sub(r'[ \t\n]+', lambda match: r'\t' if match.group(0) == '\t' else r'\n' if match.group(0) == '\n' else r'\s', buff1)
 
         # delBuff = buff1.split()
         # print(delBuff)

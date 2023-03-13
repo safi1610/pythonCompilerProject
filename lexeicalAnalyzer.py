@@ -17,7 +17,7 @@ def getNextToken(token):
     state = 0
     lineNum = 1
     curr = 0
-    buffLen = len(token)
+    buffLen = len(token) 
 
     while curr != buffLen:
         match state:
@@ -25,7 +25,7 @@ def getNextToken(token):
                 while token[curr] not in delim:
                     symbol += token[curr]
                     curr += 1
-                print(symbol +" is not a valid" + classification + " at line: " + lineNum)
+                print(symbol +" is not valid at line: " + lineNum)
             case 0:
                 if token[curr] in operators:
                     classification = "operator"
@@ -57,6 +57,10 @@ def getNextToken(token):
                     symbol += token[curr]
                     curr += 1
                     state = 3
+                if token[curr] == "<":
+                    symbol += token[curr]
+                    curr += 1
+                    state = 5
                 
                     
             case 1:
@@ -117,6 +121,17 @@ def getNextToken(token):
                     symbol = ""
                     state = 0
                     print(tk.element, tk.classification)
+            case 5:
+                if token[curr] == "=":
+                    symbol += token[curr]
+                    curr += 1
+                    state = 6
+            case 6:
+                classification = "LE"
+                tk = t.Token(symbol, tk.classification)
+                symbol = ""
+                state = 0
+                print(tk.element, tk.classification)
 
             
 
