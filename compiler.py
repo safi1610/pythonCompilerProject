@@ -20,7 +20,7 @@ def nextRead(line):
 
 def main():
     bufferSize = 16
-    fileName = "Test1.cp"
+    fileName = "Test4.cp"
     
     line = readFile(fileName, bufferSize)
     
@@ -29,7 +29,7 @@ def main():
     buff2 = nextRead(line)
 
     while True:
-        # print(buff1)
+        print(buff1)
 
         # token = re.sub(r'[ \t\n]+', lambda match: "" if match.group(0) == '\t' else "" if match.group(0) == '\n' else " ", buff1)
         # print(token)

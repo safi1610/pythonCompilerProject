@@ -3,9 +3,9 @@ import token_1 as t
 
 keyWords = ["if", "fi", "while", "do", "od", "def", "fed", "print", "then"]
 types = ["int", "double"]
-operators = ["+", "-", "*", "/", "%"]
+operators = ["+", "-", "*", "/", "%", "="]
 
-delim = [" ", "\n", "\t"]
+delim = [" ", "\n", "\t", "."]
 
 
 alphabet = string.ascii_lowercase + string.ascii_uppercase
@@ -26,6 +26,9 @@ def getNextToken(token):
                     symbol += token[curr]
                     curr += 1
                 print(f"{symbol} is not valid at line: {lineNum}" )
+                symbol = ""
+                curr += 1
+                state = 0
             case 0:
                 if token[curr] in operators:
                     classification = "operator"
@@ -40,7 +43,7 @@ def getNextToken(token):
                     symbol += token[curr]
                     state = 2
                 elif token[curr]  == "(":
-                    classification == "opening parentheses"
+                    classification = "opening parentheses"
                     symbol += token[curr]
                     state = 2
                 elif token[curr] == ")":
@@ -52,19 +55,6 @@ def getNextToken(token):
                         lineNum += 1
                     curr += 1
                     symbol = ""
-
-                elif token[curr] == "<":
-                    symbol += token[curr]
-                    curr += 1
-                    state = 5
-                elif token[curr] == ">":
-                    symbol += token[curr]
-                    curr += 1
-                    state = 6
-                elif token[curr] == "=":
-                    symbol += token[curr]
-                    curr += 1
-                    state = 7
                 
                 elif token[curr] in alphabet and token[curr].islower():
                     symbol += token[curr]
@@ -75,7 +65,18 @@ def getNextToken(token):
                     symbol += token[curr]
                     curr += 1
                     state = 3
-                
+                elif token[curr] == "<":
+                    symbol += token[curr]
+                    curr += 1
+                    state = 5
+                elif token[curr] == ">":
+                    symbol += token[curr]
+                    curr += 1
+                    state = 5
+                elif token[curr] == "=":
+                    symbol += token[curr]
+                    curr += 1
+                    state = 5
                     
             case 1:
                 if token[curr] in alphabet or token[curr].isdigit():
@@ -104,6 +105,7 @@ def getNextToken(token):
                 classification = "integer"
                 if token[curr].isdigit():
                     symbol += token[curr]
+                    curr += 1 
                 elif token[curr] == "." or token[curr] == "e":
                     symbol += token[curr]
                     state = 4
@@ -136,45 +138,47 @@ def getNextToken(token):
                     print(tk.element, tk.classification)
             case 5:
                 if token[curr] == "=":
-                    classification = "LE"
                     symbol += token[curr]
-                    state = 8
+                    curr += 1
                 if token[curr] == ">":
-                    classification = "NE"
-                    symbol += token[curr]
-                    state = 8
-                else:
                     symbol += token[curr]
                     curr += 1
-                    state = -1
-            case 6:
-                if token[curr] == "=":
-                    classification = "GE"
-                    symbol += token[curr]
-                    state = 8
-                else:
+                if token[curr] == "<":
                     symbol += token[curr]
                     curr += 1
-                    state = -1
-            case 7:
-                if token[curr] == "=":
-                    classification = "EQ"
-                    symbol += 1
-                    state = 8
-                if token[curr] == ">" or token[curr] == "<":
-                    symbol += token[curr]
-                    curr += 1
-                    state = -1
                 else:
-                    classification = "operator"
-                    state = 2
-                
+                    if symbol == "<=":
+                        classification = "LE"
+                        state = 8
+                    elif symbol == "<>":
+                        classification = "NE"
+                        state = 8
+                    elif symbol == "<":
+                        classification = "LT"
+                        state = 8
+                    elif symbol == ">=":
+                        classification = "GE"
+                        state = 8
+                    elif symbol == ">":
+                        classification = "GT"
+                        state = 8
+                    elif symbol == "==":
+                        classification = "EQ"
+                        state = 8
+                    elif symbol == "=":
+                        classification = "operator"
+                        state = 2
+                    else:
+                         state = -1
+
             case 8:
-                tk = t.Token(symbol, tk.classification)
+                tk = t.Token(symbol, classification)
                 symbol = ""
-                curr += 1
                 state = 0
                 print(tk.element, tk.classification)
+
+                    
+
 
             
 
