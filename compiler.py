@@ -19,8 +19,8 @@ def nextRead(line):
 
 
 def main():
-    bufferSize = 16
-    fileName = "Test4.cp"
+    bufferSize = 24
+    fileName = "Test1.cp"
     
     line = readFile(fileName, bufferSize)
     
