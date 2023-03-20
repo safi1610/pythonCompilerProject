@@ -16,11 +16,13 @@ def nextRead(line):
         return next(line)
     except StopIteration:
         return None
+    
+
 
 
 def main():
     bufferSize = 24
-    fileName = "Test1.cp"
+    fileName = "Test2.cp"
     
     line = readFile(fileName, bufferSize)
     
