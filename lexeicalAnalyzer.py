@@ -1,5 +1,6 @@
 import string
 import token_1 as t
+import Queue_linked as queue
 
 keyWords = ["if", "fi", "while", "do", "od", "def", "fed", "print", "then"]
 types = ["int", "double"]
@@ -7,15 +8,18 @@ operators = ["+", "-", "*", "/", "%", "="]
 
 delim = [" ", "\n", "\t", "."]
 
+tokenQueue = queue.Queue()
 
 alphabet = string.ascii_lowercase + string.ascii_uppercase
 
+lineNum = 1
+
 # state = 0
 def getNextToken(token):
+    global lineNum
     classification = ""
     symbol = ""
     state = 0
-    lineNum = 1
     curr = 0
     buffLen = len(token) 
 
@@ -25,7 +29,7 @@ def getNextToken(token):
                 while token[curr] not in delim:
                     symbol += token[curr]
                     curr += 1
-                print(f"{symbol} is not valid at line: {lineNum}" )
+                print(f"{symbol} is not a valid token at line: {lineNum}" )
                 symbol = ""
                 curr += 1
                 state = 0
@@ -90,12 +94,15 @@ def getNextToken(token):
                     else:
                         classification = "identifier"
                     tk = t.Token(symbol, classification)
+                    tokenQueue.insert(tk)
                     symbol = ""
                     state = 0
                     print(tk.element, tk.classification)
 
+
             case 2:
                 tk = t.Token(symbol, classification)
+                tokenQueue.insert(tk)
                 symbol = ""
                 state = 0
                 curr += 1
@@ -116,6 +123,7 @@ def getNextToken(token):
                     state = -1
                 else:
                     tk = t.Token(symbol, classification)
+                    tokenQueue.insert(tk)
                     symbol = ""
                     state = 0
                     print(tk.element, tk.classification)
@@ -133,6 +141,7 @@ def getNextToken(token):
                     state = -1
                 else:
                     tk = t.Token(symbol, classification)
+                    tokenQueue.insert(tk)
                     symbol = ""
                     state = 0
                     print(tk.element, tk.classification)
@@ -173,9 +182,11 @@ def getNextToken(token):
 
             case 8:
                 tk = t.Token(symbol, classification)
+                tokenQueue.insert(tk)
                 symbol = ""
                 state = 0
                 print(tk.element, tk.classification)
+    return tokenQueue
 
                     
 
