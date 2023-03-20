@@ -1,3 +1,2 @@
-def parser(tokenName, tokenClass):
-    print(tokenName)
-    return 0
+def parserToken(tokenName, tokenClass):
+    print(tokenName+""+tokenClass)
