@@ -1,5 +1,6 @@
 import lexeicalAnalyzer as lex
 import re
+import Queue_linked as queue
 
 def readFile(fName, buffS):
     with open(fName, 'r') as fp:
@@ -16,13 +17,16 @@ def nextRead(line):
         return next(line)
     except StopIteration:
         return None
-    
+
+
 
 
 
 def main():
     bufferSize = 24
-    fileName = "Test2.cp"
+    fileName = "Test1.cp"
+
+    tokenQueue = queue.Queue()
     
     line = readFile(fileName, bufferSize)
     
@@ -37,7 +41,7 @@ def main():
         # print(token)
         # delBuff = buff1.split()
         # print(delBuff)
-        lex.getNextToken(buff1)
+        tokenQueue = lex.getNextToken(buff1)
         # for token in delBuff:
         #     lex.getNextToken(token)
 
