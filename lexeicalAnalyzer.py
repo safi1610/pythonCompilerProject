@@ -1,6 +1,5 @@
 import string
 import token_1 as t
-import Queue_linked as queue
 
 keyWords = ["if", "fi", "while", "do", "od", "def", "fed", "print", "then"]
 types = ["int", "double"]
@@ -8,14 +7,16 @@ operators = ["+", "-", "*", "/", "%", "="]
 
 delim = [" ", "\n", "\t", "."]
 
-tokenQueue = queue.Queue()
+tokenQueue = t.Queue()
 
 alphabet = string.ascii_lowercase + string.ascii_uppercase
 
 lineNum = 1
 
+# f = open("output.txt", "a")
+
 # state = 0
-def getNextToken(token):
+def getNextToken(token, f, fError):
     global lineNum
     classification = ""
     symbol = ""
@@ -30,6 +31,8 @@ def getNextToken(token):
                     symbol += token[curr]
                     curr += 1
                 print(f"{symbol} is not a valid token at line: {lineNum}" )
+                fError.write(f"{symbol} is not a valid token at line: {lineNum}\n" )
+
                 symbol = ""
                 curr += 1
                 state = 0
@@ -93,20 +96,20 @@ def getNextToken(token):
                         classification = "type"
                     else:
                         classification = "identifier"
-                    tk = t.Token(symbol, classification)
-                    tokenQueue.insert(tk)
+                    # tk = t.Token(symbol, classification)
+                    tokenQueue.insert(symbol, classification)
                     symbol = ""
                     state = 0
-                    print(tk.element, tk.classification)
-
+                    # print(tokenQueue._rear.element, tokenQueue._rear.classification)
+                    f.write(tokenQueue._rear.element+"|"+tokenQueue._rear.classification+"\n")
 
             case 2:
-                tk = t.Token(symbol, classification)
-                tokenQueue.insert(tk)
+                # tk = t.Token(symbol, classification)
+                tokenQueue.insert(symbol, classification)
                 symbol = ""
                 state = 0
                 curr += 1
-                print(tk.element, tk.classification)
+                # print(tokenQueue._rear.element, tokenQueue._rear.classification)
             
             case 3:
                 classification = "integer"
@@ -122,11 +125,12 @@ def getNextToken(token):
                     curr += 1
                     state = -1
                 else:
-                    tk = t.Token(symbol, classification)
-                    tokenQueue.insert(tk)
+                    # tk = t.Token(symbol, classification)
+                    tokenQueue.insert(symbol, classification)
                     symbol = ""
                     state = 0
-                    print(tk.element, tk.classification)
+                    # print(tokenQueue._rear.element, tokenQueue._rear.classification)
+                    f.write(tokenQueue._rear.element+"|"+tokenQueue._rear.classification+"\n")
             case 4:
                 classification = "double"
                 if token[curr].isdigit():
@@ -140,11 +144,12 @@ def getNextToken(token):
                     curr += 1
                     state = -1
                 else:
-                    tk = t.Token(symbol, classification)
-                    tokenQueue.insert(tk)
+                    # tk = t.Token(symbol, classification)
+                    tokenQueue.insert(symbol, classification)
                     symbol = ""
                     state = 0
-                    print(tk.element, tk.classification)
+                    # print(tokenQueue._rear.element, tokenQueue._rear.classification)
+                    f.write(tokenQueue._rear.element+"|"+tokenQueue._rear.classification+"\n")
             case 5:
                 if token[curr] == "=":
                     symbol += token[curr]
@@ -181,11 +186,12 @@ def getNextToken(token):
                          state = -1
 
             case 8:
-                tk = t.Token(symbol, classification)
-                tokenQueue.insert(tk)
+                # tk = t.Token(symbol, classification)
+                tokenQueue.insert(symbol, classification)
                 symbol = ""
                 state = 0
-                print(tk.element, tk.classification)
+                # print(tokenQueue._rear.element, tokenQueue._rear.classification)
+                f.write(tokenQueue._rear.element+"|"+tokenQueue._rear.classification+"\n")
     return tokenQueue
 
                     

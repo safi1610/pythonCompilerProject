@@ -1,6 +1,6 @@
 import lexeicalAnalyzer as lex
 import re
-import Queue_linked as queue
+import token_1 as t
 
 def readFile(fName, buffS):
     with open(fName, 'r') as fp:
@@ -19,16 +19,20 @@ def nextRead(line):
         return None
 
 
-
+# def parser(tokeNode):
+#     print(tokeNode.element, tokeNode.classification)
 
 
 def main():
     bufferSize = 24
-    fileName = "Test1.cp"
-
-    tokenQueue = queue.Queue()
+    fileName = "Test2.cp"
     
+    tokenQueue = t.Queue()
+
     line = readFile(fileName, bufferSize)
+
+    f = open("output.txt", "w")
+    fError = open("Error", "w")
     
 
     buff1 = nextRead(line)
@@ -41,7 +45,7 @@ def main():
         # print(token)
         # delBuff = buff1.split()
         # print(delBuff)
-        tokenQueue = lex.getNextToken(buff1)
+        tokenQueue = lex.getNextToken(buff1, f, fError)
         # for token in delBuff:
         #     lex.getNextToken(token)
 
@@ -50,7 +54,15 @@ def main():
         buff2 = nextRead(line)
 
         if buff1 == None:
+            f.close()
+            fError.close()
             break
+            # tokenNode = tokenQueue.remove
+            # parser(tokenNode)
+
+
+            
+            
 
 
 main()
