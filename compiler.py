@@ -25,14 +25,14 @@ def nextRead(line):
 
 def main():
     bufferSize = 24
-    fileName = "Test2.cp"
+    fileName = "Test1.cp"
     
     tokenQueue = t.Queue()
 
     line = readFile(fileName, bufferSize)
 
     f = open("output.txt", "w")
-    fError = open("Error", "w")
+    fError = open("Error.txt", "w")
     
 
     buff1 = nextRead(line)
