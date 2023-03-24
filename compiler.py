@@ -19,8 +19,8 @@ def nextRead(line):
         return None
 
 
-# def parser(tokeNode):
-#     print(tokeNode.element, tokeNode.classification)
+def parser(tokeNode):
+    print(tokeNode.element, tokeNode.classification)
 
 
 def main():
@@ -56,6 +56,7 @@ def main():
         if buff1 == None:
             f.close()
             fError.close()
+
             break
             # tokenNode = tokenQueue.remove
             # parser(tokenNode)
