@@ -6,7 +6,7 @@ class Token:
     def __init__(self, element, classification, next_):
         self.element = deepcopy(element)
         self.classification = deepcopy(classification)
-        self.next = next_
+        self._next = next_
 
 
 class Queue:
@@ -101,14 +101,16 @@ class Queue:
         """
         assert self._front is not None, "Cannot remove from an empty queue"
 
-        value = self._front.element
+        el = self._front.element
+        cl = self._front.classification        
+
         
-        self._front = self._front.next
+        self._front = self._front._next
         self._count -= 1
         if self._front is None:
             self._rear = None
             
-        return value
+        return el, cl
 
     def peek(self):
         """
@@ -291,5 +293,5 @@ class Queue:
         current = self._front
 
         while current is not None:
-            yield current.element
-            current = current.next
+            yield current.element, current.classification
+            current = current._next

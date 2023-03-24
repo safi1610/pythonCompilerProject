@@ -1,6 +1,7 @@
 import lexeicalAnalyzer as lex
 import re
 import token_1 as t
+import syntaxAnalyzer as p
 
 def readFile(fName, buffS):
     with open(fName, 'r') as fp:
@@ -19,8 +20,13 @@ def nextRead(line):
         return None
 
 
-def parser(tokeNode):
-    print(tokeNode.element, tokeNode.classification)
+def pars(tokenQueue):
+    while not tokenQueue.is_empty():
+        el, cl = tokenQueue.remove()
+        # print(el, cl)
+        p.parsToken(el, cl)
+    
+
 
 
 def main():
@@ -49,6 +55,8 @@ def main():
         # for token in delBuff:
         #     lex.getNextToken(token)
 
+        
+
         buff1, buff2 = buff2, buff1
 
         buff2 = nextRead(line)
@@ -57,6 +65,10 @@ def main():
             f.close()
             fError.close()
 
+            pars(tokenQueue)
+            # for tok in tokenQueue:
+            #     print(tok)
+                
             break
             # tokenNode = tokenQueue.remove
             # parser(tokenNode)
