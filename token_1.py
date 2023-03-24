@@ -4,8 +4,8 @@ from copy import deepcopy
 
 class Token:
     def __init__(self, element, classification, next_):
-        self.element = element
-        self.classification = classification
+        self.element = deepcopy(element)
+        self.classification = deepcopy(classification)
         self.next = next_
 
 
@@ -291,5 +291,5 @@ class Queue:
         current = self._front
 
         while current is not None:
-            yield current._value
-            current = current._next
+            yield current.element
+            current = current.next

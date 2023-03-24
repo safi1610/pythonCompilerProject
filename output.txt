@@ -6,15 +6,3 @@ x|identifier
 i|identifier
 1|integer
 while|keyword
-i|identifier
-do|keyword
-x|identifier
-x|identifier
-i|identifier
-i|identifier
-i|identifier
-i|identifier
-1|integer
-od|keyword
-print|keyword
-x|identifier
