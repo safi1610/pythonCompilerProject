@@ -65,7 +65,7 @@ def main():
             f.close()
             fError.close()
 
-            pars(tokenQueue)
+            # pars(tokenQueue)   //uncomment after meeting
             # for tok in tokenQueue:
             #     print(tok)
                 

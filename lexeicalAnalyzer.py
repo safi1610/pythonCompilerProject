@@ -110,6 +110,8 @@ def getNextToken(token, f, fError):
                 state = 0
                 curr += 1
                 # print(tokenQueue._rear.element, tokenQueue._rear.classification)
+                f.write(tokenQueue._rear.element+"|"+tokenQueue._rear.classification+"\n")
+
             
             case 3:
                 classification = "integer"
