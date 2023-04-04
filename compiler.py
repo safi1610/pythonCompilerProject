@@ -19,19 +19,13 @@ def nextRead(line):
     except StopIteration:
         return None
 
-
-def pars(tokenQueue):
-    while not tokenQueue.is_empty():
-        el, cl = tokenQueue.remove()
-        # print(el, cl)
-        p.parsToken(el, cl)
     
 
 
 
 def main():
     bufferSize = 24
-    fileName = "Test1.cp"
+    fileName = "Test3.cp"
     
     tokenQueue = t.Queue()
 
@@ -65,7 +59,7 @@ def main():
             f.close()
             fError.close()
 
-            # pars(tokenQueue)   //uncomment after meeting
+            p.parser(tokenQueue)   
             # for tok in tokenQueue:
             #     print(tok)
                 

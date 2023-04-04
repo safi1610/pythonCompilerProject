@@ -84,6 +84,8 @@ def getNextToken(token, f, fError):
                     symbol += token[curr]
                     curr += 1
                     state = 5
+                else:
+                    state = -1
                     
             case 1:
                 if token[curr] in alphabet or token[curr].isdigit():
