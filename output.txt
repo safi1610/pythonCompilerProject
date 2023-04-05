@@ -1,103 +1,63 @@
-double|type
-s|identifier
-;|semi-colon
 def|keyword
-double|type
+int|type
+gcd|identifier
 (|opening parentheses
-double|type
-x|identifier
-,|comma
-double|type
-y|identifier
-)|closing parentheses
-uble|identifier
+int|type
 a|identifier
-;|semi-colon
+,|comma
+int|type
+)|closing parentheses
+if|keyword
+(|opening parentheses
 a|identifier
 =|operator
-x|identifier
-+|operator
-y|identifier
-*|operator
-y|identifier
-;|semi-colon
+=|operator
+b|identifier
+)|closing parentheses
+then|keyword
 n|identifier
+(|opening parentheses
 a|identifier
-fed|keyword
+)|closing parentheses
+fi|keyword
 ;|semi-colon
-s|identifier
-=|operator
-f|identifier
+if|keyword
 (|opening parentheses
-2.4|double
-,|comma
-1|integer
-)|closing parentheses
-+|operator
-f|identifier
-(|opening parentheses
-3|integer
-,|comma
--|operator
-2.4|double
-)|closing parentheses
-+|operator
-f|identifier
-(|opening parentheses
-1.0e|double
--|operator
-s|identifier
-;|semi-colon
-def|keyword
-double|type
-f|identifier
-(|opening parentheses
-double|type
-,|comma
-double|type
-y|identifier
-)|closing parentheses
-double|type
 a|identifier
-;|semi-colon
-a|identifier
-=|operator
-x|identifier
-+|operator
-y|identifier
-*|operator
-y|identifier
-;|semi-colon
+>|GT
+b|identifier
+)|closing parentheses
+n|identifier
 return|identifier
+(|opening parentheses
+gcd|identifier
+(|opening parentheses
 a|identifier
-fed|keyword
+-|operator
+b|identifier
+,|comma
+b|identifier
+)|closing parentheses
+)|closing parentheses
+else|identifier
+return|identifier
+(|opening parentheses
+gcd|identifier
+(|opening parentheses
+a|identifier
+,|comma
+b|identifier
+-|operator
+)|closing parentheses
+)|closing parentheses
+fi|keyword
 ;|semi-colon
-s|identifier
-=|operator
-f|identifier
-(|opening parentheses
-2.4|double
-,|comma
-1|integer
-)|closing parentheses
-+|operator
-f|identifier
-(|opening parentheses
-1.3|double
-,|comma
--|operator
-2.4|double
-)|closing parentheses
-+|operator
-(|opening parentheses
-1.0e|double
--|operator
-10|integer
-,|comma
-0.1|double
-)|closing parentheses
+fed|keyword
 ;|semi-colon
 print|keyword
+gcd|identifier
 (|opening parentheses
-s|identifier
+21|integer
+,|comma
+15|integer
 )|closing parentheses

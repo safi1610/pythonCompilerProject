@@ -1,2 +1,0 @@
-~ is not a valid token at line: 2
-10double is not a valid token at line: 7

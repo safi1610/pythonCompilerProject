@@ -96,19 +96,34 @@ def program(token):
 def funcDecl(token):
     if token in FIRST["funcDef"]:
         funcDef(token)
-    if token in FOLLOW["funcDef"]:
+    elif token in FOLLOW["funcDef"]:
         rmToken = parserQueue.remove()
         token = parserQueue.peek()
+        funcDeclRight(token)
 
-    funcDecl(token)
+
+def funcDeclRight(token):
+    if token in FIRST["funcDef"]:
+        funcDef(token)
+    elif token in FOLLOW["funcDef"]:
+        rmToken = parserQueue.remove()
+        token = parserQueue.peek()
+        funcDeclRight(token)
+    else:
+        rmToken = None
+    
 
 def funcDef(token):
-    if token is "def":
+    if token == "def":
         rmToken = parserQueue.remove()
         token = parserQueue.peek()
     if token in FIRST["type"]:
         t_type(token)
-    
+
+def t_type(token):
+    if token in FIRST["type"]:
+        rmToken = parserQueue.remove
+        token = parserQueue.peek()
 
     
         
