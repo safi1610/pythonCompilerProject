@@ -83,6 +83,11 @@ def parser(tokenQueue):
 
     program(token)
 
+def panicMode(token):
+    print(f'{token} is an invalid syntax')
+    rmToken = parserQueue.remove()
+    token = parserQueue.peek()
+
 def program(token):
     if token in FIRST["funcDecl"]:
         funcDecl(token)
@@ -94,18 +99,16 @@ def program(token):
         rmToken = parserQueue.remove()
 
 def funcDecl(token):
-    if token in FIRST["funcDef"]:
-        funcDef(token)
-    elif token in FOLLOW["funcDef"]:
+    funcDef(token)
+    if token in FOLLOW["funcDef"]:
         rmToken = parserQueue.remove()
         token = parserQueue.peek()
         funcDeclRight(token)
 
 
 def funcDeclRight(token):
-    if token in FIRST["funcDef"]:
-        funcDef(token)
-    elif token in FOLLOW["funcDef"]:
+    funcDef(token)
+    if token in FOLLOW["funcDef"]:
         rmToken = parserQueue.remove()
         token = parserQueue.peek()
         funcDeclRight(token)
@@ -114,15 +117,185 @@ def funcDeclRight(token):
     
 
 def funcDef(token):
-    if token == "def":
+    if token in FIRST["funcDef"]:
         rmToken = parserQueue.remove()
         token = parserQueue.peek()
-    if token in FIRST["type"]:
-        t_type(token)
+    t_type(token)
+    fname(token)
+    if token in FOLLOW["funcName"]:
+        rmToken = parserQueue.remove()
+        token = parserQueue.peek()
+    param(token)
 
 def t_type(token):
     if token in FIRST["type"]:
-        rmToken = parserQueue.remove
+        rmToken = parserQueue.remove()
+        token = parserQueue.peek()
+    else:
+        panicMode(token)
+
+def fname(token):
+    if token.isalnum() or token.isalpha():
+        rmToken = parserQueue.remove()
+        token = parserQueue.peek
+    else:
+        panicMode(token)
+def param(token):
+    t_type(token)
+    var(token)
+    paramRight(token)
+
+def paramRight(token):
+    if token in FIRST["paramsRight"]:
+        rmToken = parserQueue.remove()
+        token = parserQueue.peek()
+        param(token)
+    else:
+        rmToken = None
+
+def var(token):
+    if token.isalnum() or token.isalpha():
+        rmToken = parserQueue.remove()
+        token = parserQueue.peek
+    varRight(token)
+
+def varRight(token):
+    if token in FIRST["varRight"]:
+        rmToken = parserQueue.remove()
+        token = parserQueue.peek()
+        expr(token)
+    else:
+        rmToken = None
+
+def expr(token):
+    term(token)
+    exprRight(token)
+
+def exprRight(token):
+    if token == "+" or token == "-":
+        rmToken = parserQueue.remove()
+        token = parserQueue.peek()
+
+        term(token)
+        exprRight(token)
+    else:
+        rmToken = None
+
+def term(token):
+    factor(token)
+    termRight(token)
+
+def termRight(token):
+    if token == "*" or token == "/" or token == "%":
+        rmToken = parserQueue.remove()
+        token = parserQueue.peek()
+        factor(token)
+        termRight(token)
+    else:
+        rmToken = None
+
+def factor(token):
+    if token in FIRST["var"]:
+        var(token)
+    elif token.isnumeric():
+        rmToken = parserQueue.remove()
+        token = parserQueue.peek()
+    elif token in FIRST["factor"]:
+        rmToken = parserQueue.remove()
+        token = parserQueue.peek()
+        expr(token)
+        if token in FOLLOW["expr"]:
+            rmToken = parserQueue.remove()
+            token = parserQueue.peeK()
+        else:
+            panicMode(token)
+        
+    elif token.isalnum():
+        fname(token)
+        if token in FOLLOW["funcName"]:
+            rmToken = parserQueue.remove()
+            token = parserQueue.peek()
+
+            exprSeq(token)
+
+            if token in FOLLOW["expressionSequence"]:
+                rmToken = parserQueue.remove()
+                token = parserQueue.peek()
+            else:
+                panicMode(token)
+        else:
+            panicMode(token)
+    else:
+        panicMode(token)
+
+def exprSeq(token):
+    expr(token)
+    exprSeqRight(token)
+
+def exprSeqRight(token):
+    if token in FIRST["expressionSequenceRight"]:
+        rmToken = parserQueue.remove()
+        token = parserQueue.peek()
+
+        exprSeq(token)
+    else:
+        rmToken = None
+
+def bexp(token):
+    bterm(token)
+    bexpRight(token)
+
+
+def bexpRight(token): 
+    if token == "or":
+        rmToken = parserQueue.remove()
+        token = parserQueue.peek()
+        bterm(token)
+        bexpRight(token)
+    else:
+        rmToken = None
+
+def bterm(token):
+    bfactor(token)
+    btermRight(token)
+
+def btermRight(token):
+    if token == "and":
+        rmToken = parserQueue.remove()
+        token = parserQueue.peek()
+        bfactor(token)
+        btermRight(token)
+    else:
+        rmToken = None
+
+def bfactor(token):
+    if token == "not":
+        rmToken = parserQueue.remove()
+        token = parserQueue.peek()
+        bfactor(token)
+    elif token == "(":
+        rmToken = parserQueue.remove()
+        token = parserQueue.peek()
+        if token in FIRST ["branchExpression"]:
+            bexp(token)
+            if token in FOLLOW["branchExpression"]:
+                rmToken = parserQueue.remove()
+                token = parserQueue.peek()
+            else:
+                panicMode(token)
+        else:
+            expr(token)
+            comp(token)
+            expr(token)
+            if token in FOLLOW["expr"]:
+                rmToken = parserQueue.remove()
+                token = parserQueue.peek()
+            else:
+                panicMode(token)
+
+def comp(token):
+    if token in FIRST['comp']:
+        rmToken = parserQueue.remove()
         token = parserQueue.peek()
 
     
