@@ -179,7 +179,7 @@ def varListRight(token):
 
 def statmentSeq(token):
     statement(token)
-    statmentSeqRight(token)
+    statementSeqRight(token)
 
 def statementSeqRight(token):
     if token in FIRST["statementSequenceRight"]:
