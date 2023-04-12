@@ -120,12 +120,87 @@ def funcDef(token):
     if token in FIRST["funcDef"]:
         rmToken = parserQueue.remove()
         token = parserQueue.peek()
+    else:
+        panicMode(token)
     t_type(token)
     fname(token)
     if token in FOLLOW["funcName"]:
         rmToken = parserQueue.remove()
         token = parserQueue.peek()
+    else:
+        panicMode(token)
     param(token)
+
+    if token in FOLLOW["params"]:
+        rmToken = parserQueue.remove()
+        token = parserQueue.peek()
+    else:
+        panicMode(token)
+    declarations(token)
+    statements(token)
+
+def declarations(token):
+    decl(token)
+    if token in FOLLOW["decl"]:
+        rmToken = parserQueue.remove()
+        token = parserQueue.peek()
+    else:
+        panicMode(token)
+
+    declarationsRight(token)
+
+def declarationsRight(token):
+    if not token in FIRST["decl"]:
+        rmToken = None
+    else:
+        decl(token)
+        if token in FOLLOW["decl"]:
+            rmToken = parserQueue.remove()
+            token = parserQueue.peek()
+            declarationsRight(token)
+        else:
+            panicMode(token)
+
+def decl(token):
+    t_type(token)
+    varList(token)
+
+def varList(token):
+    var(token)
+    varListRight(token)
+
+def varListRight(token):
+    if token in FIRST["varlistRight"]:
+        rmToken = parserQueue.remove()
+        token = parserQueue.peek()
+    else:
+        panicMode(token)
+    varList(token)
+
+def statmentSeq(token):
+    statement(token)
+    statmentSeqRight(token)
+
+def statementSeqRight(token):
+    if token in FIRST["statementSequenceRight"]:
+        rmToken = parserQueue.remove()
+        token = parserQueue.peek()
+    else:
+        panicMode(token)
+    statmentSeq(token)
+
+def statement(token):
+    if token == "if":
+        rmToken = parserQueue.remove()
+        token = parserQueue.peek()
+
+        bexp(token)
+
+        if token == "then":
+            rmToken = parserQueue.remove()
+            token = parserQueue.peek()
+        
+
 
 def t_type(token):
     if token in FIRST["type"]:
@@ -297,6 +372,7 @@ def comp(token):
     if token in FIRST['comp']:
         rmToken = parserQueue.remove()
         token = parserQueue.peek()
+
 
     
         
