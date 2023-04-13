@@ -1,21 +1,3 @@
-def|keyword
-int|type
-gcd|identifier
-(|opening parentheses
-int|type
-a|identifier
-,|comma
-int|type
-b|identifier
-)|closing parentheses
-if|keyword
-(|opening parentheses
-a|identifier
-=|operator
-=|operator
-b|identifier
-)|closing parentheses
-then|keyword
 return|identifier
 (|opening parentheses
 a|identifier
@@ -41,7 +23,7 @@ b|identifier
 )|closing parentheses
 )|closing parentheses
 else|identifier
-return|identifier
+eturn|identifier
 (|opening parentheses
 gcd|identifier
 (|opening parentheses

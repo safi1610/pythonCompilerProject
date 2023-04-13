@@ -25,7 +25,7 @@ def nextRead(line):
 
 def main():
     bufferSize = 64
-    fileName = "Test4.cp"
+    fileName = "Test MAN.cp"
     
     tokenQueue = t.Queue()
 
