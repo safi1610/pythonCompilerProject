@@ -6,6 +6,7 @@ int|type
 a|identifier
 ,|comma
 int|type
+b|identifier
 )|closing parentheses
 if|keyword
 (|opening parentheses
@@ -15,7 +16,7 @@ a|identifier
 b|identifier
 )|closing parentheses
 then|keyword
-n|identifier
+return|identifier
 (|opening parentheses
 a|identifier
 )|closing parentheses
@@ -27,7 +28,7 @@ a|identifier
 >|GT
 b|identifier
 )|closing parentheses
-n|identifier
+then|keyword
 return|identifier
 (|opening parentheses
 gcd|identifier
@@ -48,6 +49,7 @@ a|identifier
 ,|comma
 b|identifier
 -|operator
+a|identifier
 )|closing parentheses
 )|closing parentheses
 fi|keyword
