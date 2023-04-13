@@ -151,10 +151,11 @@ def funcDef(token):
         panicMode(token)
 
     token = newToken(parserQueue)
-    declarations(token)
-
-    token = newToken(parserQueue)
-    statement(token)
+    if token in FIRST["declarations"]:
+        declarations(token)
+        token = newToken(parserQueue)
+    if token in FIRST["statement"]:
+        statement(token)
 
 def declarations(token):
     decl(token)
