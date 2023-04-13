@@ -137,7 +137,7 @@ def funcDef(token):
     else:
         panicMode(token)
     declarations(token)
-    statements(token)
+    statement(token)
 
 def declarations(token):
     decl(token)
@@ -177,7 +177,7 @@ def varListRight(token):
         panicMode(token)
     varList(token)
 
-def statmentSeq(token):
+def statementSeq(token):
     statement(token)
     statementSeqRight(token)
 
@@ -187,10 +187,20 @@ def statementSeqRight(token):
         token = parserQueue.peek()
     else:
         panicMode(token)
-    statmentSeq(token)
+    statementSeq(token)
 
 def statement(token):
-    if token == "if":
+    if token in FIRST["var"]:
+        var(token)
+
+        if token == "=":
+            rmToken = parserQueue.remove()
+            token = parserQueue.peek()
+        else:
+            panicMode(token)
+
+        expr(token)
+    elif token == "if":
         rmToken = parserQueue.remove()
         token = parserQueue.peek()
 
@@ -199,6 +209,55 @@ def statement(token):
         if token == "then":
             rmToken = parserQueue.remove()
             token = parserQueue.peek()
+        else:
+            panicMode(token)
+        statementSeq(token)
+
+        if token == "else":
+            rmToken = parserQueue.remove()
+            token = parserQueue.peek() 
+            statementSeq(token)
+        else:
+            panicMode(token)
+
+        if token == "fi":
+            rmToken = parserQueue.remove()
+            token = parserQueue.peek()
+        else:
+            panicMode(token)
+    elif token == "while":
+        rmToken = parserQueue.remove()
+        token = parserQueue.peek()
+
+        bexp(token)
+
+        if token == "do":
+            rmToken = parserQueue.remove()
+            token = parserQueue.peek()
+
+            statementSeq(token)
+
+            if token == "od":
+                rmToken = parserQueue.remove()
+                token = parserQueue.peek()
+            else:
+                panicMode(token)
+        else:
+            panicMode(token)
+    elif token == "print":
+        rmToken = parserQueue.remove()
+        token = parserQueue.peek()
+
+        expr(token)
+    elif token == "return":
+        rmToken = parserQueue.remove()
+        token = parserQueue.peek()
+
+        expr(token)
+    else:
+        panicMode(token) 
+
+        
         
 
 
