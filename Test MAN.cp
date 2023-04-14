@@ -1,3 +1,4 @@
+	if(a==b) then
 		return (a) 
 	fi;
 	if(a>b) then

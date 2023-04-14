@@ -1,3 +1,20 @@
+def|keyword
+int|type
+gcd|identifier
+(|opening parentheses
+int|type
+a|identifier
+,|comma
+int|type
+b|identifier
+)|closing parentheses
+if|keyword
+(|opening parentheses
+a|identifier
+==|EQ
+b|identifier
+)|closing parentheses
+then|keyword
 return|identifier
 (|opening parentheses
 a|identifier
@@ -23,7 +40,7 @@ b|identifier
 )|closing parentheses
 )|closing parentheses
 else|identifier
-eturn|identifier
+return|identifier
 (|opening parentheses
 gcd|identifier
 (|opening parentheses
