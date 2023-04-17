@@ -73,8 +73,9 @@ FOLLOW["factor"] = {".", ";", "fed", "fi", "od", "else", ")", "=", ">", "<", "]"
 FOLLOW["factorRight"] = {".", ";", "fed", "fi", "od", "else", ")", "=", ">", "<", "]", "+", "-", "", "/",}
 FOLLOW["factorParen"] = {".",";","fed","fi","od","else",")","=",">","<","]","+","-","*","/"}
 
-nonVarToken = ['if', 'fi', 'then', 'else', 'while', 'do', 'od', 'return', 'print', 'def', 'fed']
+nonVarToken = ['if', 'fi', 'then', 'else', 'while', 'do', 'od', 'return', 'print', 'def', 'fed', '$']
 
+line = ""
 global token
 parserQueue = t.Queue()
 def parser(tokenQueue):
@@ -84,15 +85,20 @@ def parser(tokenQueue):
     parserQueue = tokenQueue
 
     token = parserQueue.peek()
-    print(token)
+    # print(token)
 
     program(token)
 
 def removeFromQueue(parserQueue):
     global token
+    global line
 
     rmToken, rmClass = parserQueue.remove()
-    print(f"{rmToken}, Passed")
+    # print(f"{rmToken}, Passed")
+    line += rmToken + " "
+    if(rmToken == ';' or rmToken == "$"):
+        print(line)
+        line = ""
 
 def newToken(parseQueue):
     token = parserQueue.peek()
@@ -113,11 +119,13 @@ def program(token):
     if  token in FIRST["statementSequence"] or token.isalnum():
         statementSeq(token)
         token = newToken(parserQueue)
-    if token == ".":
+    if token == "$":
         removeFromQueue(parserQueue)
 
 def funcDecl(token):
-    funcDef(token)
+    if token in FIRST["funcDef"]:
+        funcDef(token)
+    token = newToken(parserQueue)
     if token in FOLLOW["funcDef"]:
         removeFromQueue(parserQueue)
         token = newToken(parserQueue)
@@ -125,7 +133,9 @@ def funcDecl(token):
 
 
 def funcDeclRight(token):
-    funcDef(token)
+    if token in FIRST["funcDef"]:
+        funcDef(token)
+    token = newToken(parserQueue)
     if token in FOLLOW["funcDef"]:
         removeFromQueue(parserQueue)
         token = newToken(parserQueue)
@@ -310,8 +320,8 @@ def statement(token):
         token = newToken(parserQueue)
 
         expr(token)
-    else:
-        panicMode(token) 
+    # else:
+    #     panicMode(token) 
 
         
         

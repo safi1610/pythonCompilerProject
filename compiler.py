@@ -48,6 +48,7 @@ def main():
         tokenQueue = lex.getNextToken(buff1, f, fError)
         # for token in delBuff:
         #     lex.getNextToken(token)
+        tokenQueue.insert("$", "END")
 
         
 
