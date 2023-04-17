@@ -73,6 +73,8 @@ FOLLOW["factor"] = {".", ";", "fed", "fi", "od", "else", ")", "=", ">", "<", "]"
 FOLLOW["factorRight"] = {".", ";", "fed", "fi", "od", "else", ")", "=", ">", "<", "]", "+", "-", "", "/",}
 FOLLOW["factorParen"] = {".",";","fed","fi","od","else",")","=",">","<","]","+","-","*","/"}
 
+nonVarToken = ['if', 'fi', 'then', 'else', 'while', 'do', 'od', 'return', 'print', 'def', 'fed']
+
 global token
 parserQueue = t.Queue()
 def parser(tokenQueue):
@@ -104,12 +106,15 @@ def program(token):
     
     if token in FIRST["funcDecl"]:
         funcDecl(token)
+        token = newToken(parserQueue)
     if token in FIRST["declarations"]:
         declarations(token)
-    if  token in FIRST["statementSequence"]:
+        token = newToken(parserQueue)
+    if  token in FIRST["statementSequence"] or token.isalnum():
         statementSeq(token)
-    if token in FOLLOW["program"]:
-        rmToken = parserQueue.remove()
+        token = newToken(parserQueue)
+    if token == ".":
+        removeFromQueue(parserQueue)
 
 def funcDecl(token):
     funcDef(token)
@@ -157,9 +162,19 @@ def funcDef(token):
         token = newToken(parserQueue)
     if token in FIRST["statement"]:
         statementSeq(token)
+    
+    token = newToken(parserQueue)
+
+    if token == "fed":
+        removeFromQueue(parserQueue)
+        token = newToken(parserQueue)
+    else:
+        panicMode(token)
+    
 
 def declarations(token):
     decl(token)
+    token = newToken(parserQueue)
     if token in FOLLOW["decl"]:
         token = removeFromQueue(parserQueue)
     else:
@@ -175,10 +190,10 @@ def declarationsRight(token):
         decl(token)
         if token in FOLLOW["decl"]:
             token = removeFromQueue(parserQueue)
+            token = newToken(parserQueue)
+            declarationsRight(token)
         else:
             panicMode(token)
-    token = newToken(parserQueue)
-    declarationsRight(token)
 
 def decl(token):
     t_type(token)
@@ -197,11 +212,11 @@ def varList(token):
 def varListRight(token):
     if token in FIRST["varlistRight"]:
         removeFromQueue(parserQueue)
+        token = newToken(parserQueue)
+        varList(token)
     else:
-        panicMode(token)
-    token = newToken(parserQueue)
+        rmToken = None
 
-    varList(token)
 
 def statementSeq(token):
     statement(token)
@@ -220,8 +235,9 @@ def statementSeqRight(token):
         rmToken = None
 
 def statement(token):
-    if token in FIRST["var"]:
+    if not token in nonVarToken:
         var(token)
+        token = newToken(parserQueue)
 
         if token == "=":
             removeFromQueue(parserQueue)
@@ -247,9 +263,13 @@ def statement(token):
         token = newToken(parserQueue)
         if token == "else":
             removeFromQueue(parserQueue)
+            token = newToken(parserQueue)
             statementSeq(token)
-        elif token == "fi":
+        token = newToken(parserQueue)
+
+        if token == "fi":
             removeFromQueue(parserQueue)
+            token = newToken(parserQueue)
         else:
             panicMode(token)
         token = newToken(parserQueue)
@@ -330,9 +350,6 @@ def var(token):
         removeFromQueue(parserQueue)
         token = newToken(parserQueue)
         varRight(token)
-    else:
-        panicMode(token)
-
 def varRight(token):
     if token in FIRST["varRight"]:
         removeFromQueue(parserQueue)
@@ -350,6 +367,7 @@ def expr(token):
 def exprRight(token):
     if token == "+" or token == "-":
         removeFromQueue(parserQueue)
+        token = newToken(parserQueue)
 
         term(token)
 
@@ -367,6 +385,7 @@ def term(token):
 def termRight(token):
     if token == "*" or token == "/" or token == "%":
         removeFromQueue(parserQueue)
+        token = newToken(parserQueue)
         factor(token)
 
         token = newToken(parserQueue)
@@ -410,6 +429,23 @@ def factor(token):
     elif token.isalnum():
         var(token)
         token = newToken(parserQueue)
+
+        token = newToken(parserQueue)
+        if token in FOLLOW["funcName"]:
+            removeFromQueue(parserQueue)
+
+            token = newToken(parserQueue)
+
+            exprSeq(token)
+
+            token = newToken(parserQueue)
+
+            if token in FOLLOW["expressionSequence"]:
+                removeFromQueue(parserQueue)
+            else:
+                panicMode(token)
+            token = newToken(parserQueue)
+        token = newToken(parserQueue)
     else:
         panicMode(token)
 
@@ -421,11 +457,11 @@ def exprSeq(token):
 def exprSeqRight(token):
     if token in FIRST["expressionSequenceRight"]:
         removeFromQueue(parserQueue)
+        token = newToken(parserQueue)
+
+        exprSeq(token)
     else:
         rmToken = None
-    token = newToken(parserQueue)
-
-    exprSeq(token)
 
 
 def bexp(token):
