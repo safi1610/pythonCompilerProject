@@ -1,41 +1,64 @@
+def|keyword
 int|type
+gcd|identifier
 (|opening parentheses
-x|identifier
+int|type
+a|identifier
 ,|comma
-i|identifier
-;|semi-colon
-x|identifier
-=|operator
-0|integer
-;|semi-colon
-i|identifier
-=|operator
-1|integer
-;|semi-colon
-while|keyword
-(|opening parentheses
-i|identifier
-<|LT
-10|integer
+int|type
+b|identifier
 )|closing parentheses
-do|keyword
-x|identifier
-=|operator
-x|identifier
-+|operator
-i|identifier
-*|operator
-i|identifier
+if|keyword
+(|opening parentheses
+a|identifier
+==|EQ
+b|identifier
+)|closing parentheses
+then|keyword
+return|identifier
+(|opening parentheses
+a|identifier
+)|closing parentheses
+fi|keyword
 ;|semi-colon
-i|identifier
-=|operator
-i|identifier
-+|operator
-1|integer
-od|keyword
+if|keyword
+(|opening parentheses
+a|identifier
+>|GT
+b|identifier
+)|closing parentheses
+then|keyword
+return|identifier
+(|opening parentheses
+gcd|identifier
+(|opening parentheses
+a|identifier
+-|operator
+b|identifier
+,|comma
+b|identifier
+)|closing parentheses
+)|closing parentheses
+else|identifier
+return|identifier
+(|opening parentheses
+gcd|identifier
+(|opening parentheses
+a|identifier
+,|comma
+b|identifier
+-|operator
+a|identifier
+)|closing parentheses
+)|closing parentheses
+fi|keyword
+;|semi-colon
+fed|keyword
 ;|semi-colon
 print|keyword
+gcd|identifier
 (|opening parentheses
-x|identifier
+21|integer
+,|comma
+15|integer
 )|closing parentheses
-;|semi-colon

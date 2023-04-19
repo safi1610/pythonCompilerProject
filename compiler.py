@@ -2,6 +2,8 @@ import lexeicalAnalyzer as lex
 import re
 import token_1 as t
 import syntaxAnalyzer as p
+import semanticAnalysis as s
+from copy import deepcopy
 
 def readFile(fName, buffS):
     with open(fName, 'r') as fp:
@@ -25,7 +27,7 @@ def nextRead(line):
 
 def main():
     bufferSize = 256
-    fileName = "Test1.cp"
+    fileName = "Test4.cp"
     
     tokenQueue = t.Queue()
 
@@ -50,6 +52,9 @@ def main():
         #     lex.getNextToken(token)
         tokenQueue.insert("$", "END")
 
+        parserQueue = t.Queue()
+        parserQueue = deepcopy(tokenQueue)
+
         
 
         buff1, buff2 = buff2, buff1
@@ -60,9 +65,14 @@ def main():
             f.close()
             fError.close()
 
-            p.parser(tokenQueue)   
+            p.parser(parserQueue)   
             # for tok in tokenQueue:
             #     print(tok)
+
+            semanticQueue = deepcopy(tokenQueue)
+            s.analyseSemantics(semanticQueue)
+
+
                 
             break
             # tokenNode = tokenQueue.remove
