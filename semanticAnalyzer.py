@@ -93,6 +93,13 @@ class semanticTable:
                 return True
             current = current._next
         return False
+    def getType(self, value):
+        current = self._front
+        while not current == None:
+            if current.element == value:
+                return current.t_type
+            current = current._next
+        return None
     
     def __iter__(self):
         """
