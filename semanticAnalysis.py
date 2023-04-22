@@ -65,7 +65,7 @@ def analyseSemantics(tokenQueue):
                 if current.element == "if":
                     sem = 3
                 if current.element == "return":
-                    
+                    returnFunc = localQueue.searchType("func")
                 current = current._next
                 
 
