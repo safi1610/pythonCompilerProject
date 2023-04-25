@@ -1,7 +1,7 @@
 import string
 import token_1 as t
 
-keyWords = ["if", "fi", "while", "do", "od", "def", "fed", "print", "then", "return"]
+keyWords = ["if", "fi", "while", "do", "od", "def", "fed", "print", "then", "return", "else"]
 types = ["int", "double"]
 operators = ["+", "-", "*", "/", "%"]
 

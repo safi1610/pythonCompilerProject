@@ -39,7 +39,7 @@ b|identifier
 b|identifier
 )|closing parentheses
 )|closing parentheses
-else|identifier
+else|keyword
 return|keyword
 (|opening parentheses
 gcd|identifier

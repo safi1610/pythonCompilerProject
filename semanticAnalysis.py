@@ -8,8 +8,10 @@ funcQueue = san.semanticTable()
 globalQueue = san.semanticTable()
 ifQueue = san.semanticTable()
 whileQueue = san.semanticTable()
+elseQueue = san.semanticTable()
 
 ifScope = "if-scope"
+elseScope = "else-scope"
 whileScope = "while-scope"
 funcScope = "func"
 globalScope = "global"
@@ -18,6 +20,7 @@ def analyseSemantics(tokenQueue):
     sem = 0
     tagType = []
     relop = ["<", ">", "<=", ">=", "<>", "=="]
+    delim = ["fi", "else", "fed", "od"]
     operator = ["+", "-", "*", "%", "/"]
     current = tokenQueue._front
     illegal = ""
@@ -52,6 +55,9 @@ def analyseSemantics(tokenQueue):
                     elif whileQueue.search(current.element):
                         statement += current.element
                         tagType.append(current.classification)
+                    elif elseQueue.search(current.element):
+                        statement += current.element
+                        tagType.append(current.classification)
 
                     else:
                         print(current.element + "does not exist within this scope")
@@ -78,6 +84,9 @@ def analyseSemantics(tokenQueue):
                     elif whileQueue.search(current.element):
                         statement += current.element
                         tagType.append(current.classification)
+                    elif elseQueue.search(current.element):
+                        statement += current.element
+                        tagType.append(current.classification)
 
                     else:
                         print(current.element + "does not exist within any scope")
@@ -86,6 +95,8 @@ def analyseSemantics(tokenQueue):
                     scope = "if-scope"
                     scopeStack.push(scope)
                     sem = 3
+                if current.element == "else":
+                    scopeStack.push(elseScope)
                 if current.element == "return":
                     statement += current.element
                     returnFunc = funcQueue.searchByType("func")
@@ -110,6 +121,9 @@ def analyseSemantics(tokenQueue):
                         whileQueue.insert(current.element, current.classification, tagType)
                         print(whileQueue._rear.element, whileQueue._rear.classification, whileQueue._rear.t_type)
                         tagType.clear()
+                    elif scopeStack.peek() == elseScope:
+                        elseQueue.insert(current.element, current.classification, tagType)
+                        print(elseQueue._rear.element, elseQueue._rear.classification, elseQueue._rear.t_type)
                     else:
 
                         globalQueue.insert(current.element, current.classification, tagType)
@@ -149,6 +163,13 @@ def analyseSemantics(tokenQueue):
                             tagType.append("integer")
                         else:
                             tagType.append("double")
+                    elif elseQueue.search(current.element):
+                        statement += current.element
+                        idType = elseQueue.getType(current.element)
+                        if "integer" in idType:
+                            tagType.append("integer")
+                        else:
+                            tagType.append("double")
 
                     else:
                         print(current.element + " does not exist")
@@ -167,7 +188,8 @@ def analyseSemantics(tokenQueue):
                 current = current._next
 
             case 4:
-                if current.classification == "identifier" or current.classification == "number" or current.classification == "double":
+                statement += current.element
+                if current.classification == "identifier":
                     if ifQueue.search(current.element):
                         idType = ifQueue.getType(current.element)
                     elif funcQueue.search(current.element):
@@ -176,29 +198,54 @@ def analyseSemantics(tokenQueue):
                         idType = whileQueue.getType(current.element)
                     elif globalQueue.search(current.element):
                         idType = globalQueue.getType(current.element)
+                    elif elseQueue.search(current.element):
+                        idType = elseQueue.getType(current.element)
                     else:
                         print(current.element + " does not exist")
                     
-                    if ("integer" in idType and "integer" in returnFunc.t_type) or ("double" in idType and "double" in returnFunc.t_type):
+                    if("func" in idType):
+                        tagType.append("func")
+
+                    
+                    elif ("integer" in idType and "integer" in returnFunc.t_type) or ("double" in idType and "double" in returnFunc.t_type):
                         if "integer" in idType:
                             tagType.append("integer")
                         else:
                             tagType.append("double")
-                        if scopeStack.peek() == ifScope:
-                                statement += current.element
-                                ifQueue.insert(statement, "return", tagType)
-                                print(ifQueue._rear.element, ifQueue._rear.classification, ifQueue._rear.t_type)
+                if current.element in operator:
+                    tagType.append(current.classification)
+                if current._next.element in delim:
+                    if scopeStack.peek() == ifScope:
+                            ifQueue.insert(statement, "return", tagType)
+                            print(ifQueue._rear.element, ifQueue._rear.classification, ifQueue._rear.t_type)
+                            tagType.clear()
+                            statement = ""
+                            sem = 1
 
-                        elif scopeStack.peek() == funcScope:
-                                statement += current.element
-                                funcQueue.insert(statement, "return", tagType)
-                                print(funcQueue._rear.element, funcQueue._rear.classification, funcQueue._rear.t_type)
-                        elif scopeStack.peek() == whileScope:
-                                statement += current.element
-                                whileQueue.insert(statement, "return", tagType)
-                                print(whileQueue._rear.element, whileQueue._rear.classification, whileQueue._rear.t_type)
-                    tagType.clear()
-                    statement = ""
-                    sem = 1
+                    elif scopeStack.peek() == funcScope:
+
+                            funcQueue.insert(statement, "return", tagType)
+                            print(funcQueue._rear.element, funcQueue._rear.classification, funcQueue._rear.t_type)
+                            tagType.clear()
+                            statement = ""
+                            sem = 1
+
+                    elif scopeStack.peek() == whileScope:
+                            
+                            whileQueue.insert(statement, "return", tagType)
+                            print(whileQueue._rear.element, whileQueue._rear.classification, whileQueue._rear.t_type)
+                            tagType.clear()
+                            statement = ""
+                            sem = 1
+
+                    elif scopeStack.peek() == elseScope:
+                            
+                            whileQueue.insert(statement, "return", tagType)
+                            print(elseQueue._rear.element, elseQueue._rear.classification, elseQueue._rear.t_type)
+                            tagType.clear()
+                            statement = ""
+                            sem = 1
+
+
                 current = current._next
 
