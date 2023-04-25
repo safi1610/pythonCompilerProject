@@ -102,7 +102,7 @@ class semanticTable:
             current = current._next
         return None
     
-    def searchType(self, t_type):
+    def searchByType(self, t_type):
         current = self._front
         while not current == None:
             if t_type in current.t_type:

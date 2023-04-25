@@ -15,7 +15,7 @@ a|identifier
 b|identifier
 )|closing parentheses
 then|keyword
-return|identifier
+return|keyword
 (|opening parentheses
 a|identifier
 )|closing parentheses
@@ -28,7 +28,7 @@ a|identifier
 b|identifier
 )|closing parentheses
 then|keyword
-return|identifier
+return|keyword
 (|opening parentheses
 gcd|identifier
 (|opening parentheses
@@ -40,7 +40,7 @@ b|identifier
 )|closing parentheses
 )|closing parentheses
 else|identifier
-return|identifier
+return|keyword
 (|opening parentheses
 gcd|identifier
 (|opening parentheses
