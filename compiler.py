@@ -26,7 +26,7 @@ def nextRead(line):
 
 
 def main():
-    bufferSize = 256
+    bufferSize = 200
     fileName = "Test4.cp"
     
     tokenQueue = t.Queue()
@@ -47,6 +47,8 @@ def main():
         # print(token)
         # delBuff = buff1.split()
         # print(delBuff)
+        print("Lexical Phase")
+        print("=============")
         tokenQueue = lex.getNextToken(buff1, f, fError)
         # for token in delBuff:
         #     lex.getNextToken(token)
@@ -64,12 +66,16 @@ def main():
         if buff1 == None:
             f.close()
             fError.close()
+            print("Syntax Analysis Phase")
+            print("=====================")
             p.parser(parserQueue)   
             # for tok in tokenQueue:
             #     print(tok)
             f = open("output.txt", "w")
             fError = open("semError.txt", "w")
             semanticQueue = deepcopy(tokenQueue)
+            print("Semantic Analysis Phase")
+            print("=======================")
             ifQueue, elseQueue, funcQueue, globalQueue, whileQueue = s.analyseSemantics(semanticQueue, fError)
 
             fError.close()
