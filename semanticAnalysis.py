@@ -257,6 +257,7 @@ def analyseSemantics(tokenQueue):
                         idType = elseQueue.getType(current.element)
                     else:
                         print(current.element + " does not exist")
+                        break
                     
                     if("func" in idType):
                         tagType.append("func")

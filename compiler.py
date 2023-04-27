@@ -64,7 +64,6 @@ def main():
         if buff1 == None:
             f.close()
             fError.close()
-
             p.parser(parserQueue)   
             # for tok in tokenQueue:
             #     print(tok)

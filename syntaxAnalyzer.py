@@ -78,6 +78,10 @@ nonVarToken = ['if', 'fi', 'then', 'else', 'while', 'do', 'od', 'return', 'print
 line = ""
 global token
 parserQueue = t.Queue()
+
+
+f = open("Synoutput.txt", "w")
+fError = open("SynError.txt", "w")
 def isfloat(num):
     try:
         float(num)
@@ -105,6 +109,7 @@ def removeFromQueue(parserQueue):
     line += rmToken + " "
     if(rmToken == ';' or rmToken == "$"):
         print(line + "passed")
+        f.write(line + "passed\n")
         line = ""
 
 def newToken(parseQueue):
@@ -112,10 +117,13 @@ def newToken(parseQueue):
     return token
 
 def panicMode(token):
-    print(f'{token} is an invalid syntax')
-    removeFromQueue(parserQueue)
-    return None
-
+    global line
+    rmToken, rmClass = parserQueue.remove()
+    line += rmToken + " "
+    print(f'{line} is an invalid syntax')
+    fError.write(f'{line} is an invalid syntax\n')
+    line = ""
+    exit()
 def program(token):
     
     if token in FIRST["funcDecl"]:
@@ -129,6 +137,8 @@ def program(token):
         token = newToken(parserQueue)
     if token == "$":
         removeFromQueue(parserQueue)
+        f.close()
+        fError.close()
     else:
         token = newToken(parserQueue)
         program(token)
@@ -142,6 +152,8 @@ def funcDecl(token):
         removeFromQueue(parserQueue)
         token = newToken(parserQueue)
         funcDeclRight(token)
+    else:
+        panicMode(token)
 
 
 def funcDeclRight(token):

@@ -35,8 +35,6 @@ gcd|identifier
 a|identifier
 -|operator
 b|identifier
-,|comma
-b|identifier
 )|closing parentheses
 )|closing parentheses
 else|keyword
