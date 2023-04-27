@@ -1,1 +1,0 @@
-('return(gcd(a,b-a', 'return', ['func', 'integer', 'integer', 'operator', 'integer'])

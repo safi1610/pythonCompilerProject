@@ -1,4 +1,0 @@
-('b(a==b)', 'bool', ['identifier', 'integer', 'EQ', 'integer'])
-('return(a', 'return', ['integer'])
-('(a>b)', 'bool', ['integer', 'GT', 'integer'])
-('return(gcd(a-b,b', 'return', ['func', 'integer', 'operator', 'integer', 'integer'])
