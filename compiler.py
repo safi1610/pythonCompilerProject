@@ -72,6 +72,7 @@ def main():
             semanticQueue = deepcopy(tokenQueue)
             ifQueue, elseQueue, funcQueue, globalQueue, whileQueue = s.analyseSemantics(semanticQueue, fError)
 
+            fError.close()
             ifFile = open("ifQueueoutput.txt", "w")
             print("if-scope\n========")
             for token in ifQueue:
