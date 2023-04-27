@@ -180,7 +180,7 @@ def analyseSemantics(tokenQueue):
                         globalQueue.insert(current.element, current.classification, tagType)
                         print(globalQueue._rear.element, globalQueue._rear.classification, globalQueue._rear.t_type)
 
-                if current.classification == "type" or current.element == ";":
+                if current.classification == "type" or current._next.element in delim:
                     if scopeStack.searchScope(funcScope):
                         sem = 1
                     else:
@@ -234,7 +234,7 @@ def analyseSemantics(tokenQueue):
                     break
                 elif current.element in relop:
                     tagType.append(current.classification)
-                elif current.element == "then" or current.element == "do":
+                elif current._next.element == "then" or current._next.element == "do":
                         ifQueue.insert(statement, "bool", tagType)
                         print(ifQueue._rear.element, ifQueue._rear.classification, ifQueue._rear.t_type)
                         tagType.clear()
@@ -405,7 +405,7 @@ def analyseSemantics(tokenQueue):
                     elif elseQueue.search(current.element):
                         tagType.append(current.classification)
 
-                if current.element in delim:
+                if current._next.element in delim:
                     if scopeStack.peek() == ifScope:
                         ifQueue.insert(statement, classification, tagType)
                         print(ifQueue._rear.element, ifQueue._rear.classification, ifQueue._rear.t_type)
