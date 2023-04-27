@@ -54,7 +54,17 @@ class Stack:
         self.head.next = self.head.next.next
         self.size -= 1
         return remove.value
- 
+    
+    def searchScope(self, scope):
+        if self.isEmpty():
+            raise Exception("Peeking from an empty stack")
+        current = self.head
+        while not current == None:
+            if current.value == scope:
+                return True
+            current = current.next
+        return False
+
  
 # Driver Code
 if __name__ == "__main__":

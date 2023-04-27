@@ -78,6 +78,13 @@ nonVarToken = ['if', 'fi', 'then', 'else', 'while', 'do', 'od', 'return', 'print
 line = ""
 global token
 parserQueue = t.Queue()
+def isfloat(num):
+    try:
+        float(num)
+        return True
+    except ValueError:
+        return False
+    
 def parser(tokenQueue):
     global token
 
@@ -97,7 +104,7 @@ def removeFromQueue(parserQueue):
     # print(f"{rmToken}, Passed")
     line += rmToken + " "
     if(rmToken == ';' or rmToken == "$"):
-        print(line)
+        print(line + "passed")
         line = ""
 
 def newToken(parseQueue):
@@ -107,6 +114,7 @@ def newToken(parseQueue):
 def panicMode(token):
     print(f'{token} is an invalid syntax')
     removeFromQueue(parserQueue)
+    return None
 
 def program(token):
     
@@ -116,11 +124,15 @@ def program(token):
     if token in FIRST["declarations"]:
         declarations(token)
         token = newToken(parserQueue)
-    if  token in FIRST["statementSequence"] or token.isalnum():
+    if  (token in FIRST["statementSequence"]) or (token.isalnum() and not token in nonVarToken):
         statementSeq(token)
         token = newToken(parserQueue)
     if token == "$":
         removeFromQueue(parserQueue)
+    else:
+        token = newToken(parserQueue)
+        program(token)
+    
 
 def funcDecl(token):
     if token in FIRST["funcDef"]:
@@ -170,7 +182,7 @@ def funcDef(token):
     if token in FIRST["declarations"]:
         declarations(token)
         token = newToken(parserQueue)
-    if token in FIRST["statement"]:
+    if token in FIRST["statement"] or (token.isalnum() and not token in nonVarToken):
         statementSeq(token)
     
     token = newToken(parserQueue)
@@ -423,7 +435,7 @@ def factor(token):
                 panicMode(token)
             token = newToken(parserQueue)
         token = newToken(parserQueue)
-    elif token.isnumeric():
+    elif token.isnumeric() or isfloat(token):
         removeFromQueue(parserQueue)
         token = newToken(parserQueue)
     elif token in FIRST["factor"]:

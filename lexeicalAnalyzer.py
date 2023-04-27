@@ -154,6 +154,9 @@ def getNextToken(token, f, fError):
                 elif token[curr] == "e":
                     symbol += token[curr]
                     curr += 1
+                elif token[curr] in operators:
+                    symbol += token[curr]
+                    curr += 1
                 elif token[curr] in alphabet and token[curr] != "e":
                     symbol += token[curr]
                     curr += 1
