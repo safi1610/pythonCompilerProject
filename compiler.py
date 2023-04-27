@@ -67,9 +67,46 @@ def main():
             p.parser(parserQueue)   
             # for tok in tokenQueue:
             #     print(tok)
-
+            f = open("output.txt", "w")
+            fError = open("semError.txt", "w")
             semanticQueue = deepcopy(tokenQueue)
-            s.analyseSemantics(semanticQueue)
+            ifQueue, elseQueue, funcQueue, globalQueue, whileQueue = s.analyseSemantics(semanticQueue, fError)
+
+            ifFile = open("ifQueueoutput.txt", "w")
+            print("if-scope\n========")
+            for token in ifQueue:
+                print(token)
+                ifFile.write(f"{token}\n")
+            ifFile.close()
+
+            elseFile = open("elseQueueoutput.txt", "w")
+            print("else-scope\n========")
+            for token in elseQueue:
+                print(token)
+                elseFile.write(f"{token}\n")
+            elseFile.close()
+
+            funcFile = open("funcQueueoutput.txt", "w")
+            print("func-scope\n========")
+            for token in funcQueue:
+                print(token)
+                funcFile.write(f"{token}\n")
+            funcFile.close()
+
+            globalFile = open("globalQueueoutput.txt", "w")
+            print("global-scope\n========")
+            for token in globalQueue:
+                print(token)
+                globalFile.write(f"{token}\n")
+            globalFile.close()
+
+            whileFile = open("whileQueueoutput.txt", "w")
+            print("while-scope\n========")
+            for token in whileQueue:
+                print(token)
+                whileFile.write(f"{token}\n")
+            whileFile.close()
+
 
 
                 

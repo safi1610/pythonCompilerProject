@@ -16,7 +16,7 @@ whileScope = "while-scope"
 funcScope = "func"
 globalScope = "global"
 
-def analyseSemantics(tokenQueue):
+def analyseSemantics(tokenQueue, fError):
     sem = 0
     tagType = []
     relop = ["<", ">", "<=", ">=", "<>", "=="]
@@ -62,7 +62,7 @@ def analyseSemantics(tokenQueue):
 
                     else:
                         print(current.element + "does not exist within this scope")
-
+                        fError.write(current.element + "does not exist within this scope\n")
                 if current.element == "print":
                     statement += current.element
                     sem = 5
@@ -78,6 +78,9 @@ def analyseSemantics(tokenQueue):
                     returnFunc = funcQueue.searchByType("func")
                     if not returnFunc == None:
                         sem = 4
+                    else:
+                        print("function not located for return")
+                        fError.write("function not located for return")
                 if current.element == "fi":
                     if scopeStack.peek() == elseScope:
                         scopeStack.pop()
@@ -122,6 +125,7 @@ def analyseSemantics(tokenQueue):
 
                     else:
                         print(current.element + "does not exist within any scope")
+                        fError.write(current.element + "does not exist within any scope")
 
                 if current.element == "if":
                     scope = "if-scope"
@@ -231,6 +235,7 @@ def analyseSemantics(tokenQueue):
                     tagType.append(current.classification)
                 elif "integer" and "double" in tagType:
                     print(statement + " does not have compatible type")
+                    fError.write(statement + " does not have compatible type")
                     break
                 elif current.element in relop:
                     tagType.append(current.classification)
@@ -257,6 +262,7 @@ def analyseSemantics(tokenQueue):
                         idType = elseQueue.getType(current.element)
                     else:
                         print(current.element + " does not exist")
+                        fError.write(current.element + " does not exist")
                         break
                     
                     if("func" in idType):
@@ -442,3 +448,4 @@ def analyseSemantics(tokenQueue):
                     else:
                         sem = 0
                 current = current._next
+    return ifQueue, elseQueue, funcQueue, globalQueue, whileQueue

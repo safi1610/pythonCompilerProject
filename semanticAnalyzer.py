@@ -125,7 +125,7 @@ class semanticTable:
         current = self._front
 
         while current is not None:
-            yield current.element, current.classification
+            yield current.element, current.classification, current.t_type
             current = current._next
     
 

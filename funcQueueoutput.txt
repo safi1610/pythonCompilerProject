@@ -1,0 +1,3 @@
+('gcd', 'identifier', ['func', 'integer'])
+('a', 'identifier', ['integer'])
+('b', 'identifier', ['integer'])

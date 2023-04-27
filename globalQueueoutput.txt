@@ -1,0 +1,1 @@
+('printgcd(21,15)', 'print', ['integer', 'func', 'integer', 'integer'])
